@@ -1,0 +1,15 @@
+<svg width="800" height="400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4b0082;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#9400d3;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="800" height="400" fill="url(#bg3)"/>
+  <rect x="50" y="50" width="700" height="300" fill="none" stroke="#fff" stroke-width="2" rx="10"/>
+  <circle cx="400" cy="200" r="80" fill="rgba(255,255,255,0.1)"/>
+  <text x="400" y="150" text-anchor="middle" font-family="Arial, sans-serif" font-size="48" font-weight="bold" fill="#fff">PS4</text>
+  <text x="400" y="190" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" fill="#fff">EXCLUSIVE</text>
+  <text x="400" y="250" text-anchor="middle" font-family="Arial, sans-serif" font-size="32" font-weight="bold" fill="#fff">Spider-Man</text>
+  <text x="400" y="280" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" fill="#ccc">Open World Action</text>
+</svg>
