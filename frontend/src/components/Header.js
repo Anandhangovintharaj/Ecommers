@@ -1,14 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import './Header.css';
 
 const Header = ({ user, cartItemsCount, onLogout }) => {
   const navigate = useNavigate();
   const location = useLocation();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const handleLogout = () => {
     onLogout();
     navigate('/');
+  };
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
   const isActiveLink = (path) => {
@@ -25,7 +30,16 @@ const Header = ({ user, cartItemsCount, onLogout }) => {
           <h1>E-Commerce Store</h1>
         </Link>
         
-        <nav className="nav">
+        <div className="mobile-menu-toggle" onClick={toggleMobileMenu}>
+          <div className={`bar ${isMobileMenuOpen ? 'open' : ''}`}></div>
+          <div className={`bar ${isMobileMenuOpen ? 'open' : ''}`}></div>
+          <div className={`bar ${isMobileMenuOpen ? 'open' : ''}`}></div>
+        </div>
+        
+        <nav className={`nav ${isMobileMenuOpen ? 'open' : ''}`}>
+          {user ? (
+            <span className="user-greeting">Hello, {user.username}!</span>
+          ) : null}
           <Link to="/" className={`nav-link ${isActiveLink('/') ? 'active' : ''}`}>Home</Link>
           <Link to="/products" className={`nav-link ${isActiveLink('/products') ? 'active' : ''}`}>Products</Link>
           
@@ -35,7 +49,6 @@ const Header = ({ user, cartItemsCount, onLogout }) => {
                 Cart ({cartItemsCount || 0})
               </Link>
               <Link to="/orders" className={`nav-link ${isActiveLink('/orders') ? 'active' : ''}`}>Orders</Link>
-              <span className="user-greeting">Hello, {user.username}!</span>
               <button onClick={handleLogout} className="logout-btn">
                 Logout
               </button>
@@ -47,6 +60,8 @@ const Header = ({ user, cartItemsCount, onLogout }) => {
             </>
           )}
         </nav>
+        
+        
       </div>
     </header>
   );

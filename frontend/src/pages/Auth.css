@@ -111,3 +111,18 @@
 .auth-links a:hover {
   text-decoration: underline;
 }
+
+@media (max-width: 600px) {
+  .auth-form {
+    padding: 1.5rem;
+  }
+
+  .form-row {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .form-row .form-group {
+    margin-bottom: 1.5rem;
+  }
+}

@@ -156,7 +156,7 @@ const Products = ({ user, onCartUpdate }) => {
                 <h3 className="product-name">{product.name}</h3>
                 <p className="product-category">{product.category_name}</p>
                 <p className="product-description">{product.description}</p>
-                <div className="product-price">${product.price}</div>
+                <div className="product-price">₹{product.price}</div>
                 
                 <div className="product-actions">
                   <button

@@ -8,7 +8,7 @@ router.get('/', authenticateToken, async (req, res) => {
   try {
     const userId = req.user.id; // Changed from req.user.userId to req.user.id
     
-    const [cartItems] = await db(`
+    const cartItems = await db(`
       SELECT c.*, p.name, p.price, p.image_url, (c.quantity * p.price) as total_price
       FROM cart c
       JOIN products p ON c.product_id = p.id
@@ -25,27 +25,29 @@ router.get('/', authenticateToken, async (req, res) => {
 // Add item to cart
 router.post('/add', authenticateToken, async (req, res) => {
   try {
-    const userId = req.user.id; // Changed from req.user.userId to req.user.id
+    const userId = req.user.id;
     const { product_id, quantity = 1 } = req.body;
 
-    // Validate required fields
     if (!product_id) {
       return res.status(400).json({ error: 'Product ID is required' });
     }
 
     // Check if product exists
-    const [products] = await db('SELECT * FROM products WHERE id = ?', [product_id]);
+    const [products] = await db(
+      'SELECT * FROM products WHERE id = ?',
+      [product_id]
+    );
     if (products.length === 0) {
       return res.status(404).json({ error: 'Product not found' });
     }
-    
+
     // Check if item already in cart
-    const [existingItems] = await db(
+    const existingItems = await db(
       'SELECT * FROM cart WHERE user_id = ? AND product_id = ?',
       [userId, product_id]
     );
-    
-    if (existingItems.length > 0) {
+
+    if (existingItems && existingItems.length > 0) {
       // Update quantity
       await db(
         'UPDATE cart SET quantity = quantity + ? WHERE user_id = ? AND product_id = ?',
@@ -61,7 +63,7 @@ router.post('/add', authenticateToken, async (req, res) => {
     
     res.json({ message: 'Item added to cart successfully' });
   } catch (error) {
-    console.error('Add to cart error:', error);
+    console.error('Add to cart error - details:', error); // More detailed error logging
     res.status(500).json({ error: 'Server error adding to cart' });
   }
 });

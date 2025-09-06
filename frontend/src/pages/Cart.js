@@ -79,11 +79,15 @@ const Cart = ({ user }) => {
   };
 
   const calculateTotal = () => {
-    return cartItems.reduce((total, item) => total + (item.price * item.quantity), 0).toFixed(2);
+    return (cartItems && Array.isArray(cartItems))
+      ? cartItems.reduce((total, item) => total + (item.price * item.quantity), 0).toFixed(2)
+      : '0.00';
   };
 
   const getTotalItems = () => {
-    return cartItems.reduce((total, item) => total + item.quantity, 0);
+    return (cartItems && Array.isArray(cartItems))
+      ? cartItems.reduce((total, item) => total + item.quantity, 0)
+      : 0;
   };
 
   if (!user) {
@@ -135,7 +139,7 @@ const Cart = ({ user }) => {
 
       <div className="cart-content">
         <div className="cart-items">
-          {cartItems.map(item => (
+          {cartItems && Array.isArray(cartItems) && cartItems.map(item => (
             <div key={item.id} className="cart-item">
               <div className="item-image">
                 <img 
@@ -150,7 +154,7 @@ const Cart = ({ user }) => {
               <div className="item-details">
                 <h3 className="item-name">{item.name}</h3>
                 <p className="item-description">{item.description}</p>
-                <div className="item-price">${item.price}</div>
+                <div className="item-price">₹{item.price}</div>
               </div>
               
               <div className="item-quantity">
@@ -172,7 +176,7 @@ const Cart = ({ user }) => {
               </div>
               
               <div className="item-total">
-                ${(item.price * item.quantity).toFixed(2)}
+                ₹{(item.price * item.quantity).toFixed(2)}
               </div>
               
               <button 
@@ -193,7 +197,7 @@ const Cart = ({ user }) => {
             
             <div className="summary-line">
               <span>Items ({getTotalItems()})</span>
-              <span>${calculateTotal()}</span>
+              <span>₹{calculateTotal()}</span>
             </div>
             
             <div className="summary-line">
@@ -203,7 +207,7 @@ const Cart = ({ user }) => {
             
             <div className="summary-line total">
               <span>Total</span>
-              <span>${calculateTotal()}</span>
+              <span>₹{calculateTotal()}</span>
             </div>
             
             <button className="checkout-btn">
