@@ -38,6 +38,7 @@ const Products = ({ user, onCartUpdate }) => {
       
       setAllProducts(productsResponse.data);
       setFilteredProducts(productsResponse.data);
+      console.log('Frontend categories API response data:', categoriesResponse.data);
       setCategories(categoriesResponse.data);
     } catch (error) {
       console.error('Error fetching data:', error);

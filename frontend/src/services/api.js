@@ -31,6 +31,15 @@ export const products = {
   getById: (id) => api.get(`/products/${id}`),
   getByCategory: (categoryId) => api.get(`/products/category/${categoryId}`),
   getCategories: () => api.get('/products/categories/all'),
+  // Admin functions for Categories
+  createCategory: (data) => api.post('/products/admin/categories', data),
+  updateCategory: (id, data) => api.put(`/products/admin/categories/${id}`, data),
+  deleteCategory: (id) => api.delete(`/products/admin/categories/${id}`),
+  // Admin functions for Products
+  getAllAdmin: () => api.get('/products/admin/all'), // A new admin endpoint to get all products
+  createProduct: (data) => api.post('/products/admin', data),
+  updateProduct: (id, data) => api.put(`/products/admin/${id}`, data),
+  deleteProduct: (id) => api.delete(`/products/admin/${id}`),
 };
 
 // Cart API calls

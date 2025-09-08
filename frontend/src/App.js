@@ -6,6 +6,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Products from './pages/Products';
 import Cart from './pages/Cart';
+import Admin from './pages/Admin'; // Import the new Admin component
 import { cart } from './services/api';
 import './App.css';
 
@@ -68,6 +69,9 @@ function App() {
             <Route path="/register" element={<Register onLogin={handleLogin} />} />
             <Route path="/products" element={<Products user={user} onCartUpdate={updateCartCount} />} />
             <Route path="/cart" element={<Cart user={user} />} />
+            {user && user.is_admin && (
+              <Route path="/admin" element={<Admin user={user} />} />
+            )}
             {/* Add more routes as components are created */}
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>

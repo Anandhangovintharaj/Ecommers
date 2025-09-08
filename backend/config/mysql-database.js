@@ -21,6 +21,7 @@ const pool = mysql.createPool({
 
 // Initialize database and tables
 const initDatabase = async () => {
+  let connection;
   try {
     // First connect without database to create it
     const tempConfig = { ...dbConfig };
@@ -34,7 +35,7 @@ const initDatabase = async () => {
     console.log(`Database '${dbConfig.database}' created or already exists`);
     
     // Now connect with database and create tables
-    const connection = await pool.getConnection();
+    connection = await pool.getConnection();
     
     try {
       // Users table
@@ -44,6 +45,7 @@ const initDatabase = async () => {
           username VARCHAR(50) UNIQUE NOT NULL,
           email VARCHAR(100) UNIQUE NOT NULL,
           password VARCHAR(255) NOT NULL,
+          is_admin BOOLEAN DEFAULT FALSE, /* Added is_admin column */
           first_name VARCHAR(50),
           last_name VARCHAR(50),
           phone VARCHAR(15),
@@ -173,7 +175,7 @@ const initDatabase = async () => {
 
       // Insert sample slideshow data if none exist
       const [slideshowRows] = await connection.execute('SELECT COUNT(*) as count FROM slideshow');
-      if (slideshowRows[0].count === 0) { // Comment out this line
+      if (slideshowRows[0].count === 0) {
         await connection.execute(`
           INSERT INTO slideshow (image_url, title, subtitle, display_order, is_active) VALUES
           ('/images/ps4-game-1.svg', 'The Last of Us Part II', 'Action Adventure', 1, TRUE),
@@ -181,12 +183,12 @@ const initDatabase = async () => {
           ('/images/ps4-game-3.svg', 'Spider-Man', 'Open World Action', 3, TRUE)
         `);
         console.log('Sample slideshow data inserted');
-       }
+      }
 
       console.log('MySQL database initialized successfully');
       
     } finally {
-      connection.release();
+      if (connection) connection.release();
     }
     
   } catch (error) {
@@ -197,14 +199,16 @@ const initDatabase = async () => {
 
 // Test database connection
 const testConnection = async () => {
+  let connection;
   try {
-    const connection = await pool.getConnection();
+    connection = await pool.getConnection();
     console.log('Connected to MySQL database successfully');
-    connection.release();
     return true;
   } catch (error) {
     console.error('Failed to connect to MySQL database:', error);
     return false;
+  } finally {
+    if (connection) connection.release();
   }
 };
 

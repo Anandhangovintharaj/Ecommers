@@ -1,0 +1,321 @@
+/* Start of Admin.css - Completely replacing existing content */
+
+.admin-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  min-height: 100vh;
+  background-color: #f8f9fa;
+}
+
+.admin-content-grid {
+  display: grid;
+  grid-template-columns: 200px 1fr; /* Sidebar width and main content */
+  gap: 2rem;
+}
+
+.admin-sidebar {
+  background-color: #34495e; /* Darker background for sidebar */
+  padding: 1.5rem 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-tab-button {
+  background-color: transparent;
+  color: #ecf0f1;
+  border: none;
+  padding: 1rem 1.5rem;
+  margin-bottom: 0.5rem;
+  text-align: left;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  border-radius: 5px;
+}
+
+.admin-tab-button:hover {
+  background-color: #5a6268;
+  color: white;
+}
+
+.admin-tab-button.active {
+  background-color: #2980b9; /* Active tab color */
+  color: white;
+  font-weight: bold;
+}
+
+.admin-container h1 {
+  text-align: center;
+  color: #2c3e50;
+  margin-bottom: 1.5rem;
+}
+
+.admin-container p {
+  text-align: center;
+  color: #6c757d;
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+}
+
+.error-message {
+  color: #e74c3c;
+  font-weight: bold;
+}
+
+.retry-button {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.retry-button:hover {
+  background-color: #2980b9;
+}
+
+.admin-section {
+  background: white;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  margin-bottom: 2rem;
+}
+
+.admin-section h2 {
+  color: #2c3e50;
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid #e9ecef;
+  padding-bottom: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.admin-section h2 .add-new-button {
+  margin-left: auto; /* Pushes the button to the right */
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+}
+
+.slideshow-form,
+.category-form,
+.product-form {
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #e1e8ed;
+}
+
+.slideshow-form h3,
+.category-form h3,
+.product-form h3 {
+  color: #34495e;
+  margin-bottom: 1.5rem;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #34495e;
+}
+
+.form-group input[type="text"],
+.form-group input[type="number"],
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ced4da;
+  border-radius: 5px;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+.form-group input[type="checkbox"] {
+  margin-right: 0.5rem;
+}
+
+.admin-button {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.admin-button:hover {
+  background-color: #2980b9;
+}
+
+.admin-button.cancel-button {
+  background-color: #6c757d;
+}
+
+.admin-button.cancel-button:hover {
+  background-color: #5a6268;
+}
+
+.admin-button.edit-button {
+  background-color: transparent; /* Changed from orange */
+  border: none;
+  padding: 0;
+}
+
+.admin-button.edit-button:hover {
+  background-color: transparent;
+}
+
+.admin-button.delete-button {
+  background-color: transparent; /* Changed from red */
+  border: none;
+  padding: 0;
+}
+
+.admin-button.delete-button:hover {
+  background-color: transparent;
+}
+
+.admin-button.edit-button i,
+.admin-button.delete-button i {
+  color: black; /* Set icon color to black */
+}
+
+.slideshow-list,
+.category-list,
+.product-list {
+  margin-top: 2rem;
+  border-top: 1px solid #e9ecef;
+  padding-top: 2rem;
+}
+
+.slideshow-list h3,
+.category-list h3,
+.product-list h3 {
+  color: #2c3e50;
+  margin-bottom: 1.5rem;
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.admin-table th,
+.admin-table td {
+  border: 1px solid #dee2e6;
+  padding: 0.75rem;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.admin-table th {
+  background-color: #e9ecef;
+  font-weight: bold;
+  color: #495057;
+}
+
+.admin-table tbody tr:nth-child(even) {
+  background-color: #f8f9fa;
+}
+
+.admin-table-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap; /* Allow buttons to wrap on smaller screens */
+}
+
+.fa-eye {
+  margin-right: 0.5rem;
+  color: #3498db; /* Eye icon color */
+}
+
+.admin-product-thumbnail {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+/* Responsive adjustments for Admin page */
+@media (max-width: 768px) {
+  .admin-content-grid {
+    grid-template-columns: 1fr; /* Stack on smaller screens */
+  }
+
+  .admin-sidebar {
+    flex-direction: row; /* Tabs in a row on mobile */
+    overflow-x: auto; /* Allow horizontal scrolling for tabs */
+    -webkit-overflow-scrolling: touch;
+    padding: 1rem;
+  }
+
+  .admin-tab-button {
+    white-space: nowrap;
+    flex-shrink: 0;
+    margin-right: 0.5rem;
+    margin-bottom: 0; /* Remove bottom margin for row layout */
+  }
+
+  .admin-container h1,
+  .admin-container p {
+    text-align: left;
+  }
+
+  .admin-table,
+  .admin-table thead,
+  .admin-table tbody,
+  .admin-table th,
+  .admin-table td,
+  .admin-table tr {
+    display: block; /* Make table elements stack on mobile */
+  }
+
+  .admin-table thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+
+  .admin-table tr {
+    border: 1px solid #dee2e6;
+    margin-bottom: 1rem;
+  }
+
+  .admin-table td {
+    border: none;
+    border-bottom: 1px solid #dee2e6;
+    position: relative;
+    padding-left: 50%;
+    text-align: right;
+  }
+
+  .admin-table td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 0;
+    width: 45%;
+    padding-left: 10px;
+    font-weight: bold;
+    text-align: left;
+    white-space: nowrap;
+  }
+}
+/* End of Admin.css */

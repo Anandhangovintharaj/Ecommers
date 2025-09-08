@@ -1,0 +1,100 @@
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  /* Animation for modal overlay */
+  animation: fadeIn 0.3s forwards;
+}
+
+.modal-content {
+  background: white;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  width: 90%;
+  max-width: 500px;
+  position: relative;
+  /* Animation for modal content */
+  animation: slideIn 0.3s forwards;
+}
+
+.modal-overlay.closing {
+  animation: fadeOut 0.3s forwards;
+}
+
+.modal-content.closing {
+  animation: slideOut 0.3s forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@keyframes slideIn {
+  from { transform: translateY(-50px) scale(0.9); opacity: 0; }
+  to { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+@keyframes slideOut {
+  from { transform: translateY(0) scale(1); opacity: 1; }
+  to { transform: translateY(-50px) scale(0.9); opacity: 0; }
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 1rem;
+}
+
+.modal-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #333;
+}
+
+.modal-close-button {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  cursor: pointer;
+  color: #aaa;
+}
+
+.modal-close-button:hover {
+  color: #333;
+}
+
+.modal-body {
+  /* Padding is handled by the .modal-content already */
+}
+
+@media (max-width: 600px) {
+  .modal-content {
+    width: 95%;
+    padding: 1.5rem;
+  }
+
+  .modal-header h2 {
+    font-size: 1.3rem;
+  }
+
+  .modal-close-button {
+    font-size: 1.8rem;
+  }
+}

@@ -48,6 +48,9 @@ const Header = ({ user, cartItemsCount, onLogout }) => {
               <Link to="/cart" className={`nav-link cart-link ${isActiveLink('/cart') ? 'active' : ''}`}>
                 Cart ({cartItemsCount || 0})
               </Link>
+              {user.is_admin && (
+                <Link to="/admin" className={`nav-link ${isActiveLink('/admin') ? 'active' : ''}`}>Admin</Link>
+              )}
               <Link to="/orders" className={`nav-link ${isActiveLink('/orders') ? 'active' : ''}`}>Orders</Link>
               <button onClick={handleLogout} className="logout-btn">
                 Logout

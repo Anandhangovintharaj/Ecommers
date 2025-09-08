@@ -44,7 +44,8 @@ router.post('/register', async (req, res) => {
       { 
         id: result.insertId, 
         username: username,
-        email: email 
+        email: email,
+        is_admin: false
       },
       process.env.JWT_SECRET || 'your-secret-key',
       { expiresIn: '24h' }
@@ -59,7 +60,8 @@ router.post('/register', async (req, res) => {
         email,
         first_name,
         last_name,
-        phone
+        phone,
+        is_admin: false // Default to false for new registrations
       }
     });
 
@@ -108,7 +110,8 @@ router.post('/login', async (req, res) => {
       { 
         id: user.id, 
         username: user.username,
-        email: user.email 
+        email: user.email,
+        is_admin: user.is_admin
       },
       process.env.JWT_SECRET || 'your-secret-key',
       { expiresIn: '24h' }
@@ -123,7 +126,8 @@ router.post('/login', async (req, res) => {
         email: user.email,
         first_name: user.first_name,
         last_name: user.last_name,
-        phone: user.phone
+        phone: user.phone,
+        is_admin: user.is_admin
       }
     });
 

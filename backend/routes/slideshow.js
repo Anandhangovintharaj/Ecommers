@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { execute: db } = require('../config/mysql-database'); // Correctly destructure and alias
-const { authenticateToken } = require('../middleware/auth');
+const { authenticateToken, authorizeAdmin } = require('../middleware/auth');
 
 // Get all active slideshow images (public route)
 router.get('/', async (req, res) => {
@@ -29,14 +29,14 @@ router.get('/', async (req, res) => {
 
 // Admin routes (require authentication)
 // Get all slideshow images including inactive ones
-router.get('/admin', authenticateToken, async (req, res) => {
+router.get('/admin', authenticateToken, authorizeAdmin, async (req, res) => {
   try {
     const query = `
       SELECT * FROM slideshow 
       ORDER BY display_order ASC, created_at DESC
     `;
     
-    const [rows] = await db(query);
+    const rows = await db(query);
     res.json({
       success: true,
       data: rows
@@ -51,7 +51,7 @@ router.get('/admin', authenticateToken, async (req, res) => {
 });
 
 // Create new slideshow image
-router.post('/admin', authenticateToken, async (req, res) => {
+router.post('/admin', authenticateToken, authorizeAdmin, async (req, res) => {
   try {
     const { image_url, title, subtitle, display_order = 1, is_active = true } = req.body;
     
@@ -67,7 +67,7 @@ router.post('/admin', authenticateToken, async (req, res) => {
       VALUES (?, ?, ?, ?, ?)
     `;
     
-    const [result] = await db(query, [image_url, title, subtitle, display_order, is_active]);
+    const result = await db(query, [image_url, title, subtitle, display_order, is_active]);
     
     res.status(201).json({
       success: true,
@@ -90,7 +90,7 @@ router.post('/admin', authenticateToken, async (req, res) => {
 });
 
 // Update slideshow image
-router.put('/admin/:id', authenticateToken, async (req, res) => {
+router.put('/admin/:id', authenticateToken, authorizeAdmin, async (req, res) => {
   try {
     const { id } = req.params;
     const { image_url, title, subtitle, display_order, is_active } = req.body;
@@ -124,7 +124,7 @@ router.put('/admin/:id', authenticateToken, async (req, res) => {
 });
 
 // Delete slideshow image
-router.delete('/admin/:id', authenticateToken, async (req, res) => {
+router.delete('/admin/:id', authenticateToken, authorizeAdmin, async (req, res) => {
   try {
     const { id } = req.params;
     
