@@ -1,16 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { cart } from '../services/api';
-import api from '../services/api'; // Import the default api instance
-import RazorpayButton from '../components/RazorpayButton'; // Import RazorpayButton
 import './Cart.css';
 
-const Cart = ({ user, addToast }) => {
+const Cart = ({ user }) => {
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [updating, setUpdating] = useState({});
-  const [razorpayOrderId, setRazorpayOrderId] = useState(null);
-  const [paymentLoading, setPaymentLoading] = useState(false);
 
   useEffect(() => {
     if (user) {
@@ -48,7 +44,7 @@ const Cart = ({ user, addToast }) => {
       ));
     } catch (error) {
       console.error('Error updating quantity:', error);
-      addToast(error.response?.data?.error || 'Failed to update quantity', 'error');
+      alert(error.response?.data?.error || 'Failed to update quantity');
     } finally {
       setUpdating(prev => ({ ...prev, [cartItemId]: false }));
     }
@@ -62,7 +58,7 @@ const Cart = ({ user, addToast }) => {
       setCartItems(prev => prev.filter(item => item.id !== cartItemId));
     } catch (error) {
       console.error('Error removing item:', error);
-      addToast(error.response?.data?.error || 'Failed to remove item', 'error');
+      alert(error.response?.data?.error || 'Failed to remove item');
     } finally {
       setUpdating(prev => ({ ...prev, [cartItemId]: false }));
     }
@@ -76,10 +72,9 @@ const Cart = ({ user, addToast }) => {
     try {
       await cart.clear();
       setCartItems([]);
-      addToast('Cart cleared successfully!', 'success');
     } catch (error) {
       console.error('Error clearing cart:', error);
-      addToast('Failed to clear cart', 'error');
+      alert('Failed to clear cart');
     }
   };
 
@@ -93,50 +88,6 @@ const Cart = ({ user, addToast }) => {
     return (cartItems && Array.isArray(cartItems))
       ? cartItems.reduce((total, item) => total + item.quantity, 0)
       : 0;
-  };
-
-  const createRazorpayOrder = async () => {
-    setPaymentLoading(true);
-    try {
-      const totalAmount = parseFloat(calculateTotal());
-      if (totalAmount <= 0) {
-        addToast('Cannot create order for zero amount.', 'error');
-        setPaymentLoading(false);
-        return;
-      }
-
-      const response = await api.post('/api/payment/orders', {
-        amount: totalAmount,
-        currency: 'INR',
-      });
-      setRazorpayOrderId(response.data.id);
-      addToast('Razorpay order created.', 'success');
-    } catch (error) {
-      console.error('Error creating Razorpay order:', error);
-      addToast(error.response?.data?.message || 'Failed to create Razorpay order', 'error');
-    } finally {
-      setPaymentLoading(false);
-    }
-  };
-
-  const handlePaymentSuccess = async (response) => {
-    setPaymentLoading(true);
-    try {
-      const verificationResponse = await api.post('/api/payment/verify', response);
-      if (verificationResponse.data.success) {
-        addToast('Payment successful and verified!', 'success');
-        // Clear cart after successful payment
-        await clearCart(); // This will also update cartItems to empty
-        setRazorpayOrderId(null);
-      } else {
-        addToast(verificationResponse.data.message || 'Payment verification failed', 'error');
-      }
-    } catch (error) {
-      console.error('Error verifying payment:', error);
-      addToast(error.response?.data?.message || 'Payment verification failed', 'error');
-    } finally {
-      setPaymentLoading(false);
-    }
   };
 
   if (!user) {
@@ -259,22 +210,9 @@ const Cart = ({ user, addToast }) => {
               <span>₹{calculateTotal()}</span>
             </div>
             
-            {razorpayOrderId ? (
-              <RazorpayButton 
-                amount={parseFloat(calculateTotal()) * 100} // Razorpay expects amount in paisa
-                orderId={razorpayOrderId}
-                onPaymentSuccess={handlePaymentSuccess}
-                addToast={addToast}
-              />
-            ) : (
-              <button 
-                className="checkout-btn"
-                onClick={createRazorpayOrder}
-                disabled={paymentLoading || getTotalItems() === 0}
-              >
-                {paymentLoading ? 'Creating Order...' : 'Proceed to Checkout'}
-              </button>
-            )}
+            <button className="checkout-btn">
+              Proceed to Checkout
+            </button>
             
             <div className="cart-actions">
               <button onClick={clearCart} className="clear-cart-btn">

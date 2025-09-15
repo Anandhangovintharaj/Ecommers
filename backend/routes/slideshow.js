@@ -1,5 +1,7 @@
 const express = require('express');
 const router = express.Router();
+const fs = require('fs'); // Import fs for file system operations
+const path = require('path'); // Import path for path manipulation
 const { execute: db } = require('../config/mysql-database'); // Correctly destructure and alias
 const { authenticateToken, authorizeAdmin } = require('../middleware/auth');
 
@@ -101,7 +103,7 @@ router.put('/admin/:id', authenticateToken, authorizeAdmin, async (req, res) => 
       WHERE id = ?
     `;
     
-    const [result] = await db(query, [image_url, title, subtitle, display_order, is_active, id]);
+    const result = await db(query, [image_url, title, subtitle, display_order, is_active, id]);
     
     if (result.changedRows === 0) {
       return res.status(404).json({
@@ -127,9 +129,26 @@ router.put('/admin/:id', authenticateToken, authorizeAdmin, async (req, res) => 
 router.delete('/admin/:id', authenticateToken, authorizeAdmin, async (req, res) => {
   try {
     const { id } = req.params;
-    
+
+    // 1. Get image_url from database
+    const [imageRow] = await db('SELECT image_url FROM slideshow WHERE id = ?', [id]);
+
+    if (imageRow && imageRow.image_url) {
+      const imagePath = path.join(__dirname, '../public', imageRow.image_url); // Correct path construction
+      fs.unlink(imagePath, (err) => {
+        if (err) {
+          console.error(`Error deleting image file ${imagePath}:`, err);
+          // Log the error but don't stop the DB deletion
+        } else {
+          console.log(`Successfully deleted image file: ${imagePath}`);
+        }
+      });
+    }
+
+    // 2. Delete entry from database
     const query = 'DELETE FROM slideshow WHERE id = ?';
-    const [result] = await db(query, [id]);
+    const result = await db(query, [id]);
+    console.log('Slideshow database deletion result:', result);
     
     if (result.affectedRows === 0) {
       return res.status(404).json({

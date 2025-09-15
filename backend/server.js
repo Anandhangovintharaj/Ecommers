@@ -17,7 +17,6 @@ const startServer = async () => {
   const orderRoutes = require('./routes/orders');
   const slideshowRoutes = require('./routes/slideshow');
   const uploadRoutes = require('./routes/upload'); // Import upload routes
-  const paymentRoutes = require('./routes/payment'); // Import payment routes
 
   // const app = express(); // Moved declaration outside
   const PORT = process.env.PORT || 5000;
@@ -35,7 +34,6 @@ const startServer = async () => {
   app.use('/api/orders', orderRoutes);
   app.use('/api/slideshow', slideshowRoutes);
   app.use('/api/upload', uploadRoutes); // Use upload routes
-  app.use('/api/payment', paymentRoutes); // Use payment routes
 
   // Basic health check route
   app.get('/api/health', (req, res) => {
