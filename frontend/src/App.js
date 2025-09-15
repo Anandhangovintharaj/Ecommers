@@ -8,11 +8,23 @@ import Products from './pages/Products';
 import Cart from './pages/Cart';
 import Admin from './pages/Admin'; // Import the new Admin component
 import { cart } from './services/api';
+import { ToastManager } from './components/Toast'; // Import ToastManager
 import './App.css';
 
 function App() {
   const [user, setUser] = useState(null);
   const [cartItemsCount, setCartItemsCount] = useState(0);
+  const [toasts, setToasts] = useState([]); // State for toasts
+
+  // Toast functions
+  const addToast = (message, type = 'success', duration = 3000) => {
+    const id = Date.now();
+    setToasts(prev => [...prev, { id, message, type, duration }]);
+  };
+
+  const removeToast = (id) => {
+    setToasts(prev => prev.filter(toast => toast.id !== id));
+  };
 
   // Check for saved user on app load
   useEffect(() => {
@@ -34,6 +46,7 @@ function App() {
         setCartItemsCount(totalItems);
       } catch (error) {
         console.error('Error fetching cart count:', error);
+        addToast('Failed to fetch cart count', 'error'); // Use addToast here
         setCartItemsCount(0);
       }
     } else {
@@ -44,6 +57,7 @@ function App() {
   const handleLogin = (userData) => {
     setUser(userData);
     updateCartCount();
+    addToast('Logged in successfully!', 'success'); // Use addToast here
   };
 
   const handleLogout = () => {
@@ -51,6 +65,7 @@ function App() {
     localStorage.removeItem('user');
     setUser(null);
     setCartItemsCount(0);
+    addToast('Logged out successfully!', 'info'); // Use addToast here
   };
 
   return (
@@ -67,15 +82,16 @@ function App() {
             <Route path="/" element={<Home user={user} />} />
             <Route path="/login" element={<Login onLogin={handleLogin} />} />
             <Route path="/register" element={<Register onLogin={handleLogin} />} />
-            <Route path="/products" element={<Products user={user} onCartUpdate={updateCartCount} />} />
-            <Route path="/cart" element={<Cart user={user} />} />
+            <Route path="/products" element={<Products user={user} onCartUpdate={updateCartCount} addToast={addToast} />} />
+            <Route path="/cart" element={<Cart user={user} addToast={addToast} />} />
             {user && user.is_admin && (
-              <Route path="/admin" element={<Admin user={user} />} />
+              <Route path="/admin" element={<Admin user={user} addToast={addToast} />} />
             )}
             {/* Add more routes as components are created */}
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </main>
+        <ToastManager toasts={toasts} removeToast={removeToast} />
       </div>
     </Router>
   );

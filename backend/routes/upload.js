@@ -49,8 +49,8 @@ router.post('/image', upload.single('image'), (req, res) => {
     return res.status(400).json({ success: false, message: 'No file uploaded' });
   }
   console.log('File uploaded successfully:', req.file);
-  // Construct the URL to the uploaded image
-  const imageUrl = `/images/${req.file.filename}`;
+  // Construct the full URL to the uploaded image
+  const imageUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
   console.log('Generated image URL:', imageUrl);
   res.status(200).json({ success: true, imageUrl: imageUrl });
 });
