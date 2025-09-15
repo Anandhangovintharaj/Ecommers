@@ -85,8 +85,7 @@
 }
 
 .dot.active {
-  /* background: #ffd700; */
-  background: red;
+  background: #ffd700;
   transform: scale(1.2);
 }
 
