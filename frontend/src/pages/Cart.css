@@ -77,7 +77,6 @@
   -webkit-box-orient: vertical;
 
   line-clamp: 2;
-=======
   line-clamp: 2; /* Standard property for line clamping */
 
   overflow: hidden;

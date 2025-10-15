@@ -48,7 +48,6 @@ const Login = ({ onLogin }) => {
     <div className="auth-container">
       <div className="auth-form">
         <h2>Login to Your Account</h2>
-        {error && <div className="error-message">{error}</div>}
         
         <form onSubmit={handleSubmit}>
           <div className="form-group">
@@ -74,6 +73,8 @@ const Login = ({ onLogin }) => {
               required
             />
           </div>
+
+          {error && <p style={{color:"red"}}>{error}</p>}
 
           <button type="submit" className="auth-button" disabled={loading}>
             {loading ? 'Logging in...' : 'Login'}
