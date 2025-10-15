@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 import Home from './pages/Home';
 import Login from './pages/Login';
@@ -7,6 +7,7 @@ import Register from './pages/Register';
 import Products from './pages/Products';
 import Cart from './pages/Cart';
 import Admin from './pages/Admin'; // Import the new Admin component
+import NotFound from './pages/NotFound';
 import { cart } from './services/api';
 import './App.css';
 
@@ -73,7 +74,7 @@ function App() {
               <Route path="/admin" element={<Admin user={user} />} />
             )}
             {/* Add more routes as components are created */}
-            <Route path="*" element={<Navigate to="/" replace />} />
+            <Route path="*" element={<NotFound to="/pagenotfound" />} />
           </Routes>
         </main>
       </div>
