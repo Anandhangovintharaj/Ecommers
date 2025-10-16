@@ -6,8 +6,8 @@ const router = express.Router();
 // Get user's orders
 router.get('/', authenticateToken, async (req, res) => {
   try {
-    const userId = req.user.userId;
-    
+    const userId = req.query.userId;
+    console.log('Fetching orders for user ID:', userId);
     const [orders] = await db.execute(`
       SELECT o.*, 
         COUNT(oi.id) as item_count,

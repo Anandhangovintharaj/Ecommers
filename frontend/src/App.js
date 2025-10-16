@@ -8,6 +8,7 @@ import Products from './pages/Products';
 import Cart from './pages/Cart';
 import Admin from './pages/Admin'; // Import the new Admin component
 import NotFound from './pages/NotFound';
+import Order from './pages/Order';
 import { cart } from './services/api';
 import './App.css';
 
@@ -70,6 +71,7 @@ function App() {
             <Route path="/register" element={<Register onLogin={handleLogin} />} />
             <Route path="/products" element={<Products user={user} onCartUpdate={updateCartCount} />} />
             <Route path="/cart" element={<Cart user={user} />} />
+            <Route path="/orders" element={<Order user={user} />} />
             {user && user.is_admin && (
               <Route path="/admin" element={<Admin user={user} />} />
             )}

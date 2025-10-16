@@ -53,7 +53,7 @@ export const cart = {
 
 // Orders API calls
 export const orders = {
-  get: () => api.get('/orders'),
+  get: (userID) => api.get(`/orders?userId=${userID.username}`),
   getById: (id) => api.get(`/orders/${id}`),
   create: (shippingAddress) => api.post('/orders/create', { shipping_address: shippingAddress }),
 };
